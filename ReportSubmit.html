@@ -45,7 +45,6 @@
         }
         button:hover { background: #555; }
     </style>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
 </head>
 <body>
     <div class="container">
@@ -100,37 +99,28 @@
                 return;
             }
 
-            const location = document.getElementById("location").value;
-            validateLocation(location, function(isValid) {
-                if (!isValid) {
-                    alert("Please enter a valid location.");
-                    return;
-                }
+            // Save report in localStorage
+            const report = {
+                id: Date.now(),
+                userId: document.getElementById("userId").value,
+                crimeType: document.getElementById("crimeType").value,
+                crimeDesc: document.getElementById("crimeDesc").value,
+                dateTime: document.getElementById("dateTime").value,
+                location: document.getElementById("location").value
+            };
 
-                const report = {
-                    id: Date.now(),
-                    userId: document.getElementById("userId").value,
-                    crimeType: document.getElementById("crimeType").value,
-                    crimeDesc: document.getElementById("crimeDesc").value,
-                    dateTime: document.getElementById("dateTime").value,
-                    location: location
-                };
+            let reports = JSON.parse(localStorage.getItem("crimeReports")) || [];
+            reports.push(report);
+            localStorage.setItem("crimeReports", JSON.stringify(reports));
 
-                let reports = JSON.parse(localStorage.getItem("crimeReports")) || [];
-                reports.push(report);
-                localStorage.setItem("crimeReports", JSON.stringify(reports));
+            alert("Crime report submitted successfully!");
 
-                alert("Crime report submitted successfully!");
+           
+            console.log("Redirecting to ReportHistory.html...");
+            setTimeout(() => {
                 window.location.href = "ReportHistory.html";
-            });
+            }, 1000); // Small delay to ensure alert is seen
         });
-
-        function validateLocation(location, callback) {
-            const geocoder = new google.maps.Geocoder();
-            geocoder.geocode({ 'address': location }, function(results, status) {
-                callback(status === 'OK' && results.length > 0);
-            });
-        }
     </script>
 </body>
 </html>
