@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crime Report History</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #ccc;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h2 {
+            color: #f5a623;
+        }
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            background: #2b2b2b;
+        }
+        th, td {
+            border: 1px solid #555;
+            padding: 8px;
+            text-align: center;
+            color: #fff;
+        }
+        th {
+            background: #000;
+        }
+        a {
+            color: cyan;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .filters {
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <h2>Crime Report History</h2>
+
+    <div class="filters">
+        <label>Filter by Date: <input type="date" id="filterDate"></label>
+        <label>Crime Type: 
+            <select id="filterCrime">
+                <option value="">All</option>
+                <option value="Theft">Theft</option>
+                <option value="Assault">Assault</option>
+                <option value="Cybercrime">Cybercrime</option>
+                <option value="Other">Other</option>
+            </select>
+        </label>
+        <label>Status: 
+            <select id="filterStatus">
+                <option value="">All</option>
+                <option value="Pending">Pending</option>
+                <option value="In-Progress">In-Progress</option>
+                <option value="Resolved">Resolved</option>
+            </select>
+        </label>
+        <button onclick="applyFilters()">Apply Filters</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Date & Time</th>
+                <th>Crime Type</th>
+                <th>Description</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Evidence</th>
+            </tr>
+        </thead>
+        <tbody id="reportTableBody">
+        </tbody>
+    </table>
+
+    <script>
+        function loadReports(filteredReports = null) {
+            const reports = JSON.parse(localStorage.getItem("crimeReports")) || [];
+            const tableBody = document.getElementById("reportTableBody");
+            tableBody.innerHTML = "";
+
+            const dataToShow = filteredReports || reports;
+
+            dataToShow.forEach(report => {
+                const evidenceLink = report.evidenceBase64
+                    ? `<a href="#" onclick="viewEvidence('${report.evidenceBase64}', '${report.evidenceName}')">View Evidence</a>`
+                    : "No Evidence";
+
+                const row = `
+                    <tr>
+                        <td>${report.userId}</td>
+                        <td>${report.dateTime}</td>
+                        <td>${report.crimeType}</td>
+                        <td>${report.crimeDesc}</td>
+                        <td>${report.location}</td>
+                        <td>${report.status}</td>
+                        <td>${evidenceLink}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function applyFilters() {
+            const reports = JSON.parse(localStorage.getItem("crimeReports")) || [];
+            const filterDate = document.getElementById("filterDate").value;
+            const filterCrime = document.getElementById("filterCrime").value;
+            const filterStatus = document.getElementById("filterStatus").value;
+
+            const filteredReports = reports.filter(report => {
+                const reportDate = report.dateTime.split(" ")[0]; // Extracting only the date part
+
+                return (
+                    (filterDate === "" || reportDate === filterDate) &&
+                    (filterCrime === "" || report.crimeType === filterCrime) &&
+                    (filterStatus === "" || report.status === filterStatus)
+                );
+            });
+
+            loadReports(filteredReports);
+        }
+
+        function viewEvidence(base64Data, fileName) {
+            const newTab = window.open();
+            newTab.document.write(`
+                <html>
+                <head><title>${fileName}</title></head>
+                <body>
+                    <h2>Evidence: ${fileName}</h2>
+                    <embed src="${base64Data}" width="100%" height="90%" />
+                </body>
+                </html>
+            `);
+        }
+
+        window.onload = () => loadReports();
+    </script>
+</body>
+</html>

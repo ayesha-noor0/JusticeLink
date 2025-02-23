@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crime Management System - Login</title>
+    <style>
+      
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+       
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .background {
+            background: url('Project_Pictures/2015366.webp') no-repeat center center/cover;
+            filter: grayscale(50%) blur(2px);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+      
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 0;
+        }
+
+       
+        .login-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            width: 350px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-box h2 {
+            color: #000000;
+            font-size: 30px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+       
+        .input-box {
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .input-box label {
+            font-size: 16px;
+            color: #f5a623;
+            font-weight: bold;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: white;
+            font-size: 14px;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        .forgot-password a {
+            text-decoration: none;
+            color: #000000;
+            font-weight: bold;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: black;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s ease-in-out;
+        }
+
+        .login-btn:hover {
+            background: #333333;
+        }
+
+        .signup {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .signup a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #f5a623;
+        }
+
+        .signup a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-info {
+            position: absolute;
+            bottom: 20px;
+            left: 30px;
+            color: white;
+            font-size: 14px;
+            z-index: 1;
+        }
+
+        .contact-info div {
+            margin: 5px 0;
+        }
+
+        .nav {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            display: flex;
+            gap: 20px;
+            z-index: 1;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .nav a:hover {
+            text-decoration: underline;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background"></div>
+    <div class="overlay"></div>
+
+    <div class="logo">JUSTICELINK</div>
+
+    <div class="nav">
+        <a href="#">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+    </div>
+
+    <div class="login-box">
+        <h2>LOGIN</h2>
+        
+        <div class="input-box">
+            <label>Username :</label>
+            <input type="text" id="username" placeholder="Enter Username" required>
+        </div>
+
+        <div class="input-box">
+            <label>Password :</label>
+            <input type="password" id="password" placeholder="Enter Password" required>
+        </div>
+
+        <div class="forgot-password">
+            <a href="#">Forgot password?</a>
+        </div>
+
+        <button class="login-btn" onclick="redirectToDashboard()">LOGIN</button>
+
+        <div class="signup">
+            Don’t have an account? <a href="signup.html">Register now</a>
+        </div>
+    </div>
+
+    <div class="contact-info">
+        <div>📞 Phone: +123-456-7890</div>
+        <div>📧 E-Mail: crime@gmail.com</div>
+        <div>🌐 Website: www.crime.com</div>
+        <div>📍 Address: 123 Anywhere, PK, Any City</div>
+    </div>
+
+    <script>
+        function redirectToDashboard() {
+            
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+           
+            if (username === "" || password === "") {
+                alert("Please enter Username and Password!");
+            } else {
+               
+                window.location.href = "dashboard.html";
+            }
+        }
+    </script>
+
+</body>
+</html>
